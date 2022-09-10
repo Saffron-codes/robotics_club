@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
 //initializing software serial
-SoftwareSerial SerialBT();
+SoftwareSerial SerialBT(3,4);
 
 //right motor
 int mR1 = 10;
@@ -22,8 +22,8 @@ void setup() {
   pinMode(mR2,OUTPUT);
   
   //left motor
-  pinMode(mL3,OUTPUT);
-  pinMode(mL4,OUTPUT);
+  pinMode(mL1,OUTPUT);
+  pinMode(mL2,OUTPUT);
   
 }
 
@@ -80,17 +80,43 @@ void Right(){
 void loop() {
   if(SerialBT.available()) {
     char data = SerialBT.read();
-    if(data == 'F'){
-      Forward();
+    switch(data){
+      case 'F':
+        Forward();
+        break;
+        
+      case 'B':
+        Backward();
+        break;
+        
+      case 'R':
+        Right();
+        break;
+        
+      case 'L':
+        Left();
+        break;
     }
-    else if(data == 'B'){
-      Backward();
-    }
-    else if(data == 'L'){
-      Left();
-    }
-    else if(data == 'R'){
-      Right();
-    }
+    
   }
 }
+
+/*
+void waste(data){
+  if(data == 'F' && data != 'B'){
+      
+    }
+    else if(data == 'B' && data != 'F' ){
+      Backward();
+    }
+    else if(data == 'L' && data != 'R'){
+      Left();
+    }
+    else if(data == 'R'  && data != 'L'){
+      Right();
+    }
+    else if(data != 'B' && data != 'L' && data != 'R' && data != 'F'){
+      Stop();
+    }
+}
+*/
