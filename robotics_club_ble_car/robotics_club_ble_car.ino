@@ -1,8 +1,5 @@
-#include <SoftwareSerial.h>
-
-//initializing software serial
-SoftwareSerial SerialBT(3,4);
-
+//our variable where bluetooth data is stored
+char data;
 //right motor
 int mR1 = 10;
 int mR2 = 11;
@@ -14,97 +11,100 @@ int mL2 = 13;
 
 void setup() {
   // begin the communication between arduino and bluetooth module
-  Serial.begin(38400);
-  SerialBT.begin(38400);
+  Serial.begin(9600);
 
   //right motor
-  pinMode(mR1,OUTPUT);
-  pinMode(mR2,OUTPUT);
-  
+  pinMode(mR1, OUTPUT);
+  pinMode(mR2, OUTPUT);
+
   //left motor
-  pinMode(mL1,OUTPUT);
-  pinMode(mL2,OUTPUT);
-  
+  pinMode(mL1, OUTPUT);
+  pinMode(mL2, OUTPUT);
+
 }
 
-void Stop(){
-  
-  //right motor 
-  digitalWrite(mR1,HIGH); //MOTOR STOPS
-  digitalWrite(mR2,HIGH);
+void Stop() {
+
+  //right motor
+  digitalWrite(mR1, LOW); //MOTOR STOPS
+  digitalWrite(mR2, LOW);
 
   //left motor
-  digitalWrite(mL1,HIGH);  //MOTOR STOPS
-  digitalWrite(mL2,HIGH);
+  digitalWrite(mL1, LOW); //MOTOR STOPS
+  digitalWrite(mL2, LOW);
 }
 
-void Forward(){
-  
-  //right motor 
-  digitalWrite(mR1,HIGH); //FORWARD
-  digitalWrite(mR2,LOW);
+void Forward() {
+
+  //right motor
+  digitalWrite(mR1, HIGH); //FORWARD
+  digitalWrite(mR2, LOW);
 
   //left motor
-  digitalWrite(mL1,HIGH);  //FORWARD
-  digitalWrite(mL2,LOW);
-  
+  digitalWrite(mL1, HIGH); //FORWARD
+  digitalWrite(mL2, LOW);
+
 }
-void Backward(){
-  //right motor 
-  digitalWrite(mR1,LOW);  //BACKWARD
-  digitalWrite(mR2,HIGH);
+void Backward() {
+  //right motor
+  digitalWrite(mR1, LOW); //BACKWARD
+  digitalWrite(mR2, HIGH);
 
   //left motor
-  digitalWrite(mL1,LOW);  //BACKWARD
-  digitalWrite(mL2,HIGH);
+  digitalWrite(mL1, LOW); //BACKWARD
+  digitalWrite(mL2, HIGH);
 }
-void Left(){
-  //right motor 
-  digitalWrite(mR1,HIGH); //FORWARD
-  digitalWrite(mR2,LOW);
+void Left() {
+  //right motor
+  digitalWrite(mR1, HIGH); //FORWARD
+  digitalWrite(mR2, LOW);
 
   //left motor
-  digitalWrite(mL1,LOW);  //BACKWARD
-  digitalWrite(mL2,HIGH);
+  digitalWrite(mL1, LOW); //BACKWARD
+  digitalWrite(mL2, HIGH);
 }
-void Right(){
-  //right motor 
-  digitalWrite(mR1,LOW);  //BACKWARD
-  digitalWrite(mR2,HIGH);
+void Right() {
+  //right motor
+  digitalWrite(mR1, LOW); //BACKWARD
+  digitalWrite(mR2, HIGH);
 
   //left motor
-  digitalWrite(mL1,HIGH);  //FORWARD
-  digitalWrite(mL2,LOW);
+  digitalWrite(mL1, HIGH); //FORWARD
+  digitalWrite(mL2, LOW);
 }
 
 void loop() {
-  if(SerialBT.available()) {
-    char data = SerialBT.read();
-    switch(data){
-      case 'F':
-        Forward();
-        break;
-        
-      case 'B':
-        Backward();
-        break;
-        
-      case 'R':
-        Right();
-        break;
-        
-      case 'L':
-        Left();
-        break;
-    }
-    
+  if (Serial.available()) {
+    data = Serial.read();
+    Serial.write(data);
+  }
+
+  switch (data) {
+    case 'F':
+      Forward();
+      break;
+
+    case 'B':
+      Backward();
+      break;
+
+    case 'R':
+      Right();
+      break;
+
+    case 'L':
+      Left();
+      break;
+    case 'S':
+      Stop();
+      break;
   }
 }
 
 /*
-void waste(data){
+  void waste(data){
   if(data == 'F' && data != 'B'){
-      
+
     }
     else if(data == 'B' && data != 'F' ){
       Backward();
@@ -118,5 +118,5 @@ void waste(data){
     else if(data != 'B' && data != 'L' && data != 'R' && data != 'F'){
       Stop();
     }
-}
+  }
 */
