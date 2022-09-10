@@ -4,12 +4,12 @@
 SoftwareSerial SerialBT();
 
 //right motor
-int mr1 = 10;
-int mr2 = 11;
+int mR1 = 10;
+int mR2 = 11;
 
 //left motor
-int ml1 = 12;
-int ml2 = 13;
+int mL1 = 12;
+int mL2 = 13;
 
 
 void setup() {
@@ -18,63 +18,63 @@ void setup() {
   SerialBT.begin(38400);
 
   //right motor
-  pinMode(mr1,OUTPUT);
-  pinMode(mr2,OUTPUT);
+  pinMode(mR1,OUTPUT);
+  pinMode(mR2,OUTPUT);
   
   //left motor
-  pinMode(ml3,OUTPUT);
-  pinMode(ml4,OUTPUT);
+  pinMode(mL3,OUTPUT);
+  pinMode(mL4,OUTPUT);
   
 }
 
 void Stop(){
   
   //right motor 
-  digitalWrite(mr1,HIGH); //MOTOR STOPS
-  digitalWrite(mr2,HIGH);
+  digitalWrite(mR1,HIGH); //MOTOR STOPS
+  digitalWrite(mR2,HIGH);
 
   //left motor
-  digitalWrite(ml1,HIGH);  //MOTOR STOPS
-  digitalWrite(ml2,HIGH);
+  digitalWrite(mL1,HIGH);  //MOTOR STOPS
+  digitalWrite(mL2,HIGH);
 }
 
 void Forward(){
   
   //right motor 
-  digitalWrite(mr1,HIGH); //FORWARD
-  digitalWrite(mr2,LOW);
+  digitalWrite(mR1,HIGH); //FORWARD
+  digitalWrite(mR2,LOW);
 
   //left motor
-  digitalWrite(ml1,HIGH);  //FORWARD
-  digitalWrite(ml2,LOW);
+  digitalWrite(mL1,HIGH);  //FORWARD
+  digitalWrite(mL2,LOW);
   
 }
 void Backward(){
   //right motor 
-  digitalWrite(mr1,LOW);  //BACKWARD
-  digitalWrite(mr2,HIGH);
+  digitalWrite(mR1,LOW);  //BACKWARD
+  digitalWrite(mR2,HIGH);
 
   //left motor
-  digitalWrite(ml1,LOW);  //BACKWARD
-  digitalWrite(ml2,HIGH);
+  digitalWrite(mL1,LOW);  //BACKWARD
+  digitalWrite(mL2,HIGH);
 }
 void Left(){
   //right motor 
-  digitalWrite(mr1,HIGH); //FORWARD
-  digitalWrite(mr2,LOW);
+  digitalWrite(mR1,HIGH); //FORWARD
+  digitalWrite(mR2,LOW);
 
   //left motor
-  digitalWrite(ml1,LOW);  //BACKWARD
-  digitalWrite(ml2,HIGH);
+  digitalWrite(mL1,LOW);  //BACKWARD
+  digitalWrite(mL2,HIGH);
 }
 void Right(){
   //right motor 
-  digitalWrite(mr1,LOW);  //BACKWARD
-  digitalWrite(mr2,HIGH);
+  digitalWrite(mR1,LOW);  //BACKWARD
+  digitalWrite(mR2,HIGH);
 
   //left motor
-  digitalWrite(ml1,HIGH);  //FORWARD
-  digitalWrite(ml2,LOW);
+  digitalWrite(mL1,HIGH);  //FORWARD
+  digitalWrite(mL2,LOW);
 }
 
 void loop() {
