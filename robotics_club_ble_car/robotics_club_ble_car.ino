@@ -1,18 +1,31 @@
-//our variable where bluetooth data is stored
-char data;
+#include "Arduino.h"
+#include <SoftwareSerial.h>
+
+int rxPin = 5;
+int txPin = 6;
+int statu = 7;
+
+SoftwareSerial BTSerial(rxPin, txPin); // RX TX
+
+char dataByte; //our variable where bluetooth dataByte is stored
+char stat; //Status of the bluetooth module
+
 //right motor
-int mR1 = 10;
-int mR2 = 11;
+int mR1 = 8;
+int mR2 = 9;
 
 //left motor
-int mL1 = 12;
-int mL2 = 13;
+int mL1 = 10;
+int mL2 = 11;
 
 
 void setup() {
-  // begin the communication between arduino and bluetooth module
-  Serial.begin(9600);
+  
+  BTSerial.begin(9600);
+  Serial.begin(9600); // begin the communication between arduino and bluetooth module
 
+  pinMode(statu,INPUT); //making the statu pin as input
+  
   //right motor
   pinMode(mR1, OUTPUT);
   pinMode(mR2, OUTPUT);
@@ -73,49 +86,67 @@ void Right() {
   digitalWrite(mL2, LOW);
 }
 
-void loop() {
-  if (Serial.available()) {
-    data = Serial.read();
-    Serial.write(data);
+void getData(){
+  while(BTSerial.available()) {
+    dataByte = BTSerial.read();
+    Serial.write(dataByte);
   }
+  
+  while(Serial.available()){
+    dataByte = Serial.read();
+    BTSerial.write(dataByte);
+  }
+  stat = digitalRead(statu);
+}
 
-  switch (data) {
-    case 'F':
-      Forward();
-      break;
+void loop() {
+  getData();
+  if (Serial.available()) {
+    dataByte = Serial.read();
+    Serial.write(dataByte);
+  }
+  if(stat ==1){
+    switch (dataByte) {
+      case 'F':
+        Forward();
+        break;
 
-    case 'B':
-      Backward();
-      break;
+      case 'B':
+        Backward();
+        break;
 
-    case 'R':
-      Right();
-      break;
+      case 'R':
+        Right();
+        break;
 
-    case 'L':
-      Left();
-      break;
-    case 'S':
-      Stop();
-      break;
+      case 'L':
+        Left();
+        break;
+        
+      case 'S':
+        Stop();
+        break;
+  }
+  }else{
+    Stop();
   }
 }
 
 /*
-  void waste(data){
-  if(data == 'F' && data != 'B'){
+  void waste(dataByte){
+  if(dataByte == 'F' && dataByte != 'B'){
 
     }
-    else if(data == 'B' && data != 'F' ){
+    else if(dataByte == 'B' && dataByte != 'F' ){
       Backward();
     }
-    else if(data == 'L' && data != 'R'){
+    else if(dataByte == 'L' && dataByte != 'R'){
       Left();
     }
-    else if(data == 'R'  && data != 'L'){
+    else if(dataByte == 'R'  && dataByte != 'L'){
       Right();
     }
-    else if(data != 'B' && data != 'L' && data != 'R' && data != 'F'){
+    else if(dataByte != 'B' && dataByte != 'L' && dataByte != 'R' && dataByte != 'F'){
       Stop();
     }
   }
