@@ -3,12 +3,12 @@
 
 int rxPin = 5;
 int txPin = 6;
-int statu = 7;
+int statusPin = 7;
 
 SoftwareSerial BTSerial(rxPin, txPin); // RX TX
 
 char dataByte; //our variable where bluetooth dataByte is stored
-char stat; //Status of the bluetooth module
+char Status; //statusus of the bluetooth module
 
 //right motor
 int mR1 = 8;
@@ -24,7 +24,7 @@ void setup() {
   BTSerial.begin(9600);
   Serial.begin(9600); // begin the communication between arduino and bluetooth module
 
-  pinMode(statu,INPUT); //making the statu pin as input
+  pinMode(statusPin,INPUT); //making the statusu pin as input
   
   //right motor
   pinMode(mR1, OUTPUT);
@@ -96,7 +96,7 @@ void getData(){
     dataByte = Serial.read();
     BTSerial.write(dataByte);
   }
-  stat = digitalRead(statu);
+  Status = digitalRead(statusPin);
 }
 
 void loop() {
@@ -105,7 +105,7 @@ void loop() {
     dataByte = Serial.read();
     Serial.write(dataByte);
   }
-  if(stat ==1){
+  if(Status ==1){
     switch (dataByte) {
       case 'F':
         Forward();
@@ -131,23 +131,3 @@ void loop() {
     Stop();
   }
 }
-
-/*
-  void waste(dataByte){
-  if(dataByte == 'F' && dataByte != 'B'){
-
-    }
-    else if(dataByte == 'B' && dataByte != 'F' ){
-      Backward();
-    }
-    else if(dataByte == 'L' && dataByte != 'R'){
-      Left();
-    }
-    else if(dataByte == 'R'  && dataByte != 'L'){
-      Right();
-    }
-    else if(dataByte != 'B' && dataByte != 'L' && dataByte != 'R' && dataByte != 'F'){
-      Stop();
-    }
-  }
-*/
